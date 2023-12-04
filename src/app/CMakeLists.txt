@@ -1,4 +1,4 @@
-add_subdirectory( QMapView )
+add_subdirectory( location_app )
 
 
 
