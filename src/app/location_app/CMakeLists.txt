@@ -11,19 +11,27 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+file(GLOB_RECURSE QML_LIST *.qml)
+
 find_package(Qt5 COMPONENTS Widgets Quick REQUIRED)
 
+file(GLOB_RECURSE SOURCE_LIST *.cc)
+file(GLOB_RECURSE HEADER_LIST *.h)
+
 add_executable(LocationApp
-    main.cpp
-    mainwindow.cpp
-    mainwindow.h
-    mainwindow.ui
+    ${SOURCE_LIST}
+	${HEADER_LIST}
+	qml.qrc
   )
 
 target_link_libraries(LocationApp PRIVATE 
     Qt5::Widgets
     Qt5::Quick
-    location
+    GACLocationPlugin
 )
 
+add_custom_target(LocationApp-Qml
+	SOURCES
+        MapView.qml
+)
 #set_target_properties(LocationApp PROPERTIES FOLDER app)
