@@ -1,5 +1,5 @@
 add_subdirectory( app )
-add_subdirectory( tian_location_plugin)
+add_subdirectory( gac_location_plugin)
 
 
 
