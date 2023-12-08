@@ -1,6 +1,6 @@
 {
-    "Keys": ["mymap"],
-    "Provider": "mymap",
+    "Keys": ["GACMap"],
+    "Provider": "GACMap",
     "Version": 100,
     "Experimental": false,
     "Features": [
