@@ -10,42 +10,38 @@
 
 namespace gove {
 namespace location {
+
 GACGeoTileFetcher::GACGeoTileFetcher(const QVariantMap &parameters,
-                                     QGeoMappingManagerEngine *parent)
-    : QGeoTileFetcher(parent), networkManager(new QNetworkAccessManager(this)) {
-    if (parameters.contains("mapPath")) {
-        mapUrl = QUrl::fromLocalFile(parameters.value("mapPath").toString())
-                     .toString();
-    }
+                                   QGeoMappingManagerEngine *parent)
+    : QGeoTileFetcher(parent),
+      network_manager_ptr_(new QNetworkAccessManager(this)) {}
 
-    if (parameters.contains("format")) {
-        format = parameters.value("format").toString();
-    }
+static const QString tiandituImg = QStringLiteral(
+    "http://t2.tianditu.gov.cn/img_w/"
+    "wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=img&STYLE=default&"
+    "TILEMATRIXSET=w&FORMAT=tiles&TILEMATRIX=%1&TILEROW=%2&TILECOL=%3&tk=%4");
+
+QString getURL(int x, int y, int zoom) {
+    const QString s_x = QString("%1").arg(zoom);
+    const QString s_y = QString("%1").arg(y);
+    const QString s_z = QString("%1").arg(x);
+    return tiandituImg.arg(s_x, s_y, s_z, "0aa1147d0129a72f6958656125461fe6");
 }
 
-QGeoTiledMapReply *GACGeoTileFetcher::getTileImage(const QGeoTileSpec &spec) {
+QGeoTiledMapReply* GACGeoTileFetcher::getTileImage(const QGeoTileSpec &spec) {
     QNetworkRequest request;
-    request.setRawHeader("Accept", "*/*");
-    request.setUrl(getUrl(spec));
-
-    QNetworkReply *reply = networkManager->get(request);
-    return new GACGeoTiledMapReply(reply, spec, format);
-}
-
-QString GACGeoTileFetcher::getUrl(const QGeoTileSpec &spec) const {
-    const QString zz =
-        QString("%1").arg(spec.zoom(), 2, 10, QLatin1Char('0')).toUpper();
-    const QString yy =
-        QString("%1").arg(spec.y(), 8, 16, QLatin1Char('0')).toUpper();
-    const QString xx =
-        QString("%1").arg(spec.x(), 8, 16, QLatin1Char('0')).toUpper();
-
-    return QString("%1/L%2/R%3/C%4.%5")
-        .arg(mapUrl)
-        .arg(zz)
-        .arg(yy)
-        .arg(xx)
-        .arg(format);
+    request.setRawHeader(QByteArrayLiteral("Accept"),
+                         QByteArrayLiteral("text/html,image/*"));
+    request.setRawHeader(
+        QByteArrayLiteral("User-Agent"),
+        QByteArrayLiteral(
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+            "(KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"));
+    auto url = getURL(spec.x(), spec.y(), spec.zoom());
+    request.setUrl(QUrl(url));
+    
+    QNetworkReply *reply = network_manager_ptr_->get(request);
+    return new GACGeoTiledMapReply(reply, spec);
 }
 
 }  // namespace location

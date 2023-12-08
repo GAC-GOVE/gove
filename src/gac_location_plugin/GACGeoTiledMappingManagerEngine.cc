@@ -39,7 +39,6 @@ GACGeoTiledMappingManagerEngine::GACGeoTiledMappingManagerEngine(
     setTileFetcher(tile_fetcher);
 
     m_prefetchStyle = QGeoTiledMap::NoPrefetching;
-    m_prefetchStyle = QGeoTiledMap::NoPrefetching;
     *error = QGeoServiceProvider::NoError;
     errorString->clear();
 }

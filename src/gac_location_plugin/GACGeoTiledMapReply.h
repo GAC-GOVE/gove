@@ -10,7 +10,7 @@ class GACGeoTiledMapReply : public QGeoTiledMapReply {
 
 public:
     GACGeoTiledMapReply(QNetworkReply *reply, const QGeoTileSpec &spec,
-                        const QString &imageFormat, QObject *parent = nullptr);
+                        QObject *parent = nullptr);
 
 private Q_SLOTS:
     void networkReplyFinished();

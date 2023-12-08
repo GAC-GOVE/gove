@@ -5,7 +5,6 @@ namespace location {
 
 GACGeoTiledMapReply::GACGeoTiledMapReply(QNetworkReply *reply,
                                          const QGeoTileSpec &spec,
-                                         const QString &imageFormat,
                                          QObject *parent)
     : QGeoTiledMapReply(spec, parent) {
     if (!reply) {
@@ -17,7 +16,7 @@ GACGeoTiledMapReply::GACGeoTiledMapReply(QNetworkReply *reply,
             SLOT(networkReplyError(QNetworkReply::NetworkError)));
     connect(this, &QGeoTiledMapReply::aborted, reply, &QNetworkReply::abort);
     connect(this, &QObject::destroyed, reply, &QObject::deleteLater);
-    setMapImageFormat(imageFormat);
+    setMapImageFormat("jpg");
 }
 
 void GACGeoTiledMapReply::networkReplyFinished() {
