@@ -19,17 +19,8 @@ function(add_test_module src_directory )
 	endforeach()  
 endfunction()
 
-Set(location_link_library 
+Set(gac_location_plugin_link_library 
 	gtest
 )
 
-add_test_module(location ${location_link_library})
-
-if(ENABLE_ALL_TEST)
-	add_test_module(planning_core ${planning_core_module_link_library})
-	add_test_module(planning_base ${planning_base_module_link_library})
-else()
-	if(ENABLE_LOCATION_TEST)
-		add_test_module(planning_core ${planning_core_module_link_library})
-	endif()
-endif()
+add_test_module(GACLocationPlugin ${gac_location_plugin_link_library})
