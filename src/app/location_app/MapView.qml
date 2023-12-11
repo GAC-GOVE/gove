@@ -12,26 +12,25 @@ Window {
     title: qsTr("GACLocation")
 
     Map {
-        id: the_map
+        id: map
         anchors.fill: parent
         minimumZoomLevel: 2
-        maximumZoomLevel: 16
+        maximumZoomLevel: 22
         zoomLevel: 16
 
-        center: QtPositioning.coordinate(30.67, 104.06) 
+        center: QtPositioning.coordinate(23.038,113.497) //GAC
 
         plugin: Plugin {
-            name: "mymap" //"esri" "mapbox" "osm" "here"
+            name: "GACMap" //"esri" "mapbox" "osm" "here"
 
             PluginParameter {
-                name: "mapPath"
-                value: applicationDirPath+"/dianzi_gaode_ArcgisServerTiles/_alllayers"
+                name: "MapChacheDirectory"
+                value: applicationDirPath+"/MapChache"
             }
+        }
 
-            PluginParameter {
-                name: "format"
-                value: "png"
-            }
+        Component.onCompleted: {
+            
         }
     }
 }

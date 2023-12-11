@@ -1,21 +1,15 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-
-#define MyMapPlugin_Static
-#ifdef MyMapPlugin_Static
 #include <QtPlugin>
-#endif
 
 int main(int argc, char *argv[]) {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication app(argc, argv);
 
-#ifdef MyMapPlugin_Static
-    Q_IMPORT_PLUGIN(MyMapPlugin);
-#endif
+    Q_IMPORT_PLUGIN(GACMapPlugin);
 
-    QQmlApplicationEngine engine;
+   QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty(
         "applicationDirPath", QGuiApplication::applicationDirPath());
 

@@ -1,5 +1,6 @@
 #include "GACGeoTiledMappingManagerEngine.h"
 #include "GACGeoTileFetcher.h"
+#include "GACMapEngine.h"
 
 #include <QtLocation/private/qgeocameracapabilities_p.h>
 #include <QtLocation/private/qgeomaptype_p.h>
@@ -29,6 +30,7 @@ void GACGeoTiledMappingManagerEngine::Init(const QVariantMap &parameters,
     InitCameraCapabilities(parameters);
     InitTileFetcher(parameters);
     InitTileCache(parameters);
+    GACMapEngine::Instance().Init();
 
     m_prefetchStyle = QGeoTiledMap::NoPrefetching;
     *error = QGeoServiceProvider::NoError;
